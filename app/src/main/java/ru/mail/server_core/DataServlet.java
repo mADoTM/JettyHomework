@@ -29,7 +29,6 @@ public class DataServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String mapInJson = gson.toJson(service.getAllCompaniesWithProducts());
-        System.out.println("json get");
         resp.setContentType("text/plain");
         resp.getWriter().println(mapInJson);
     }

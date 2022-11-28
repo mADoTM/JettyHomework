@@ -20,20 +20,22 @@ import java.util.EnumSet;
 public class Main {
     public static void main(String[] args) throws Exception {
         FlywayInitializer.initDb();
+
         final var injector = Guice.createInjector(new ApplicationModule(),
                 new ApplicationServletModule());
         final var server = injector.getInstance(DefaultServer.class).build();
 
-        ServletContextHandler context = new ServletContextHandler(server, "/", ServletContextHandler.NO_SESSIONS);
+        final var context = new ServletContextHandler(server, "/", ServletContextHandler.NO_SESSIONS);
         context.addFilter(GuiceFilter.class, "/*", EnumSet.allOf(DispatcherType.class));
         context.setContextPath("/");
+
         final URL resource = LoginService.class.getResource("/static");
         context.setBaseResource(Resource.newResource(resource.toExternalForm()));
         context.addServlet(DefaultServlet.class, "/");
 
-        final String jdbcConfig = Main.class.getResource("/db/jdbc_config").toExternalForm();
-        final JDBCLoginService jdbcLoginService = new JDBCLoginService("login", jdbcConfig);
-        final ConstraintSecurityHandler securityHandler = new SecurityHandlerBuilder().build(jdbcLoginService);
+        final var jdbcConfig = Main.class.getResource("/db/jdbc_config").toExternalForm();
+        final var jdbcLoginService = new JDBCLoginService("login", jdbcConfig);
+        final var securityHandler = new SecurityHandlerBuilder().build(jdbcLoginService);
         server.addBean(jdbcLoginService);
         securityHandler.setHandler(context);
         server.setHandler(securityHandler);

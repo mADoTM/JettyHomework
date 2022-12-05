@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 @Data
 public class Product {
-    private final int id;
-    private final @NotNull String name;
-    private final int companyId;
-    private final int count;
+    public final int id;
+    public final @NotNull String name;
+    public final int companyId;
+    public final int count;
 }

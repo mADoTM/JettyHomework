@@ -33,7 +33,7 @@ public class DataService {
             company = companyDAO.getByName(companyName);
         }
 
-        productDAO.save(productName, company.getId(), count);
+        productDAO.save(productName, company.id, count);
     }
 
     public @NotNull Map<Company, List<Product>> getAllCompaniesWithProducts() {
@@ -41,13 +41,10 @@ public class DataService {
 
         final var companies = companyDAO.all();
 
-        for(var company : companies) {
-            map.put(company, new ArrayList<Product>());
-
-            for(var product : productDAO.getProductsByCompanyId(company.getId())) {
-                map.get(company).add(product);
-            }
-        }
+        companies.forEach(company -> {
+            map.put(company, new ArrayList<>());
+            productDAO.getProductsByCompanyId(company.getId()).forEach(product -> map.get(company).add(product));
+        });
 
         return map;
     }

@@ -5,6 +5,6 @@ import org.jetbrains.annotations.NotNull;
 
 @Data
 public class Company {
-    private final int id;
-    private final @NotNull String name;
+    public final int id;
+    public final @NotNull String name;
 }

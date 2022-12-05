@@ -13,10 +13,10 @@ public final class FlywayInitializer {
                         CREDS.login(),
                         CREDS.password()
                 )
-                //.cleanDisabled(false)
+                .cleanDisabled(false)
                 .locations("db")
                 .load();
-        //flyway.clean();
+        flyway.clean();
         flyway.migrate();
     }
 }

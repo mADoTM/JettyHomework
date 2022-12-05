@@ -1,9 +1,10 @@
 package ru.mail.server_core;
 
 import org.eclipse.jetty.server.*;
+import org.jetbrains.annotations.NotNull;
 
 public final class DefaultServer {
-    private final Server server = new Server();
+    private final @NotNull Server server = new Server();
     private static final int port = 3466;
 
     public Server build() {
@@ -11,9 +12,9 @@ public final class DefaultServer {
     }
 
     public Server build(int port) {
-        final HttpConfiguration httpConfig = new HttpConfiguration();
-        final HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(httpConfig);
-        final ServerConnector serverConnector = new ServerConnector(server, httpConnectionFactory);
+        final var httpConfig = new HttpConfiguration();
+        final var httpConnectionFactory = new HttpConnectionFactory(httpConfig);
+        final var serverConnector = new ServerConnector(server, httpConnectionFactory);
         serverConnector.setHost("localhost");
         serverConnector.setPort(port);
         server.setConnectors(new Connector[]{serverConnector});

@@ -18,6 +18,8 @@ public class DataServlet extends HttpServlet {
 
     protected final @NotNull Gson gson;
 
+    private boolean postMethodAlreadyUsed = false;
+
     @Inject
     public DataServlet(@NotNull DataService service,
                        @NotNull Gson gson) {
@@ -35,17 +37,18 @@ public class DataServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        if (postMethodAlreadyUsed) {
+            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            return;
+        }
+
         String productName = req.getParameter("product_name");
         String companyName = req.getParameter("company_name");
         int count = Integer.parseInt(req.getParameter("count"));
 
         service.add(productName, companyName, count);
 
-        resp.setStatus(200);
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
+        postMethodAlreadyUsed = true;
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }

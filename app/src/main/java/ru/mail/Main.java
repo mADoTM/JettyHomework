@@ -29,7 +29,7 @@ public class Main {
         context.addFilter(GuiceFilter.class, "/*", EnumSet.allOf(DispatcherType.class));
         context.setContextPath("/");
 
-        final URL resource = LoginService.class.getResource("/static");
+        final var resource = LoginService.class.getResource("/static");
         context.setBaseResource(Resource.newResource(resource.toExternalForm()));
         context.addServlet(DefaultServlet.class, "/");
 

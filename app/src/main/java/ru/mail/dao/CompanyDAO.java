@@ -42,11 +42,11 @@ public class CompanyDAO {
                     .from(COMPANY)
                     .fetch();
 
-            for (Record record : result) {
+            result.forEach(record -> {
                 int id = record.getValue(COMPANY.COMPANY_ID);
                 String companyName = record.getValue(COMPANY.NAME);
                 list.add(new Company(id, companyName));
-            }
+            });
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
